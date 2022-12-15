@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -37,6 +38,10 @@ namespace Scenes.Menu
             else if (Input.GetKeyDown(KeyCode.Return))
             {
                 SelectOption();
+            }
+            else if (Input.GetKeyDown(KeyCode.Escape) || (Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.LeftBracket)))
+            {
+                FocusQuitOptionOrQuit();
             }
         }
 
@@ -79,6 +84,19 @@ namespace Scenes.Menu
             else if (focusedOption == quitOption)
             {
                 Quit();
+            }
+        }
+
+        private void FocusQuitOptionOrQuit()
+        {
+            var focusedOption = _options[_focusedOptionI];
+            if (focusedOption == quitOption)
+            {
+                Quit();
+            }
+            else
+            {
+                FocusOption(Array.IndexOf(_options, quitOption));
             }
         }
 
