@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Scenes.Menu
 {
@@ -10,93 +11,99 @@ namespace Scenes.Menu
         public TextMeshProUGUI resultOption;
         public TextMeshProUGUI configOption;
         public TextMeshProUGUI quitOption;
-        public AudioSource seAudioSource;
-        public Color normalOptionColor;
-        public Color focusedOptionColor;
-        public AudioClip moveSe;
-        public AudioClip selectSe;
+        public Color normalMenuItemColor;
+        public Color focusedMenuItemColor;
+        public AudioClip bgm;
+        public AudioClip moveSE;
+        public AudioClip selectSE;
 
-        private TextMeshProUGUI[] _options;
-        private int _focusedOptionI;
+        private BGMSingleton _bgmSingleton;
+        private SESingleton _seSingleton;
+        private TextMeshProUGUI[] _menuItems;
+        private int _focusedMenuItemI;
 
         private void Start()
         {
-            _options = new[] { startOption, resultOption, configOption, quitOption };
-            _focusedOptionI = 0;
+            _bgmSingleton = BGMSingleton.GetInstance();
+            _bgmSingleton.PlayBGM(bgm);
+            _seSingleton = SESingleton.GetInstance();
+            _menuItems = new[] { startOption, resultOption, configOption, quitOption };
+            _focusedMenuItemI = 0;
+            UpdateMenuItems();
+        }
+
+        private void UpdateMenuItems()
+        {
+            foreach (var menuItem in _menuItems)
+            {
+                menuItem.color = normalMenuItemColor;
+                menuItem.fontStyle = FontStyles.Normal;
+            }
+            _menuItems[_focusedMenuItemI].color = focusedMenuItemColor;
+            _menuItems[_focusedMenuItemI].fontStyle = FontStyles.Underline;
         }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.K))
             {
-                FocusPrevOption();
+                FocusPrevMenuItem();
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.J))
             {
-                FocusNextOption();
+                FocusNextMenuItem();
             }
-            else if (Input.GetKeyDown(KeyCode.Return))
+            else if (Input.GetKeyDown(KeyCode.Return) || (Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.M)))
             {
-                SelectOption();
+                SelectMenuItem();
             }
             else if (Input.GetKeyDown(KeyCode.Escape) || (Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.LeftBracket)))
             {
-                FocusQuitOptionOrQuit();
+                FocusQuitMenuItemOrSelectQuitMenuItem();
             }
         }
 
-        private void FocusPrevOption()
+        private void FocusPrevMenuItem()
         {
-            FocusOption(_focusedOptionI > 0 ? _focusedOptionI-1 : _options.Length-1);
+            FocusMenuItem(_focusedMenuItemI > 0 ? _focusedMenuItemI-1 : _menuItems.Length-1);
         }
 
-        private void FocusNextOption()
+        private void FocusNextMenuItem()
         {
-            FocusOption(_focusedOptionI+1 < _options.Length ? _focusedOptionI+1 : 0);
+            FocusMenuItem(_focusedMenuItemI+1 < _menuItems.Length ? _focusedMenuItemI+1 : 0);
         }
 
-        private void FocusOption(int optionI)
+        private void FocusMenuItem(int menuItemI)
         {
-            seAudioSource.PlayOneShot(moveSe);
-            foreach (var option in _options)
-            {
-                option.color = normalOptionColor;
-                option.fontStyle = FontStyles.Normal;
-            }
-            _options[optionI].color = focusedOptionColor;
-            _options[optionI].fontStyle = FontStyles.Underline;
-            _focusedOptionI = optionI;
+            _seSingleton.PlaySE(moveSE);
+            _focusedMenuItemI = menuItemI;
+            UpdateMenuItems();
         }
 
-        private void SelectOption()
+        private void SelectMenuItem()
         {
-            seAudioSource.PlayOneShot(selectSe);
-            var focusedOption = _options[_focusedOptionI];
-            if (focusedOption == startOption)
+            _seSingleton.PlaySE(selectSE);
+            var focusedMenuItem = _menuItems[_focusedMenuItemI];
+            if (focusedMenuItem == configOption)
             {
+                SceneManager.LoadScene("ConfigScene");
             }
-            else if (focusedOption == resultOption)
-            {
-            }
-            else if (focusedOption == configOption)
-            {
-            }
-            else if (focusedOption == quitOption)
+            else if (focusedMenuItem == quitOption)
             {
                 Quit();
             }
         }
 
-        private void FocusQuitOptionOrQuit()
+        private void FocusQuitMenuItemOrSelectQuitMenuItem()
         {
-            var focusedOption = _options[_focusedOptionI];
-            if (focusedOption == quitOption)
+            var focusedMenuItem = _menuItems[_focusedMenuItemI];
+            if (focusedMenuItem == quitOption)
             {
-                Quit();
+                SelectMenuItem();
             }
             else
             {
-                FocusOption(Array.IndexOf(_options, quitOption));
+                FocusMenuItem(Array.IndexOf(_menuItems, quitOption));
             }
         }
 
