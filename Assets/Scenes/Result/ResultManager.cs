@@ -1,4 +1,4 @@
-﻿using Persistent;
+using Persistent;
 using Scene;
 using Singleton;
 using TMPro;
@@ -11,7 +11,7 @@ namespace Scenes.Result
         public TextMeshProUGUI archiveContent;
         public AudioClip resultBGM;
         public AudioClip selectSE;
-        
+
         private BGMSingleton _bgm;
         private SESingleton _se;
         private FadeSingleton _fade;

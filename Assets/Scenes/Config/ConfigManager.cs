@@ -169,7 +169,7 @@ namespace Scenes.Config
             _se.Play(selectSE);
             BackToMenu();
         }
-        
+
         private void BackToMenu()
         {
             _inTransition = true;

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,7 +17,7 @@ namespace Scene
             yield return new WaitForSeconds(Delay);
             SceneManager.LoadScene(sceneName);
         }
-        
+
         public static IEnumerator QuitWithDelay()
         {
             yield return new WaitForSeconds(Delay);

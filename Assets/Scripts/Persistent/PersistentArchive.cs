@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace Persistent
@@ -7,7 +7,7 @@ namespace Persistent
     public class PersistentArchive
     {
         private static readonly string PersistentArchiveKey = "archive";
-        
+
         public bool firstCoursePassed;
         public bool secondCoursePassed;
 

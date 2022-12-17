@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace Persistent
@@ -37,7 +37,7 @@ namespace Persistent
                 return JsonUtility.FromJson<PersistentConfig>(playerConfigJson);
             }
         }
-    
+
         public static void SavePersistentConfigToPlayerPrefs(PersistentConfig persistentConfig)
         {
             PlayerPrefs.SetString(PersistentConfigKey, JsonUtility.ToJson(persistentConfig));

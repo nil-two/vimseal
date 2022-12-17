@@ -1,4 +1,4 @@
-﻿using Persistent;
+using Persistent;
 using UnityEngine;
 
 namespace Singleton
@@ -6,9 +6,9 @@ namespace Singleton
     public class BGMSingleton : MonoBehaviour
     {
         private static BGMSingleton _instance;
-    
+
         private const float BGMVolumeCoefficient = 0.0025f;
-    
+
         private AudioSource _audioSource;
 
         public static BGMSingleton GetInstance()

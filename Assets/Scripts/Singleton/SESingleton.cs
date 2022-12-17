@@ -1,4 +1,4 @@
-﻿using Persistent;
+using Persistent;
 using UnityEngine;
 
 namespace Singleton
@@ -6,9 +6,9 @@ namespace Singleton
     public class SESingleton : MonoBehaviour
     {
         private static SESingleton _instance;
-    
+
         private const float SEVolumeCoefficient = 0.0025f;
-    
+
         private AudioSource _audioSource;
 
         public static SESingleton GetInstance()
