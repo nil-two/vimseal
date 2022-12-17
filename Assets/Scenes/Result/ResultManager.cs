@@ -40,6 +40,10 @@ namespace Scenes.Result
             {
                 BackToMenu();
             }
+            else if (Input.GetKeyDown(KeyCode.Backspace) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.H)))
+            {
+                BackToMenu();
+            }
             else if (Input.GetKeyDown(KeyCode.Escape) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.LeftBracket)))
             {
                 BackToMenu();

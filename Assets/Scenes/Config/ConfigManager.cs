@@ -68,9 +68,13 @@ namespace Scenes.Config
             {
                 SelectConfigItem();
             }
+            else if (Input.GetKeyDown(KeyCode.Backspace) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.H)))
+            {
+                SelectBackMenu();
+            }
             else if (Input.GetKeyDown(KeyCode.Escape) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.LeftBracket)))
             {
-                FocusBackConfigItemOrSelectBackConfigItem();
+                SelectBackMenu();
             }
         }
 
@@ -156,24 +160,22 @@ namespace Scenes.Config
             var focusedConfigItem = _configItems[_focusedConfigItemI];
             if (focusedConfigItem == backMenu)
             {
-                _inTransition = true;
-                _fade.FadeOut();
-                PersistentConfig.SavePersistentConfigToPlayerPrefs(_config);
-                StartCoroutine(SceneTransition.LoadSceneWithDelay(SceneTransition.MenuScene));
+                BackToMenu();
             }
         }
 
-        private void FocusBackConfigItemOrSelectBackConfigItem()
+        private void SelectBackMenu()
         {
-            var focusedConfigItem = _configItems[_focusedConfigItemI];
-            if (focusedConfigItem == backMenu)
-            {
-                SelectConfigItem();
-            }
-            else
-            {
-                FocusConfigItem(Array.IndexOf(_configItems, backMenu));
-            }
+            _se.Play(selectSE);
+            BackToMenu();
+        }
+        
+        private void BackToMenu()
+        {
+            _inTransition = true;
+            _fade.FadeOut();
+            PersistentConfig.SavePersistentConfigToPlayerPrefs(_config);
+            StartCoroutine(SceneTransition.LoadSceneWithDelay(SceneTransition.MenuScene));
         }
     }
 }
