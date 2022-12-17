@@ -63,8 +63,8 @@ namespace Scenes.Result
             const string passedMark = "*";
             const string unPassedMark = " ";
             archiveContent.text = string.Join("\n",
-                $"[{(_archive.firstCoursePassed ? passedMark : unPassedMark)}] 1st course ---",
-                $"[{(_archive.secondCoursePassed ? passedMark : unPassedMark)}] 2nd course ---",
+                $"[{(_archive.firstCoursePassed ? passedMark : unPassedMark)}] 1st course",
+                $"[{(_archive.secondCoursePassed ? passedMark : unPassedMark)}] 2nd course",
                 "");
         }
     }
