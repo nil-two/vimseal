@@ -1,7 +1,9 @@
 using System;
+using Persistent;
+using Singleton;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using Scene;
 
 namespace Scenes.Config
 {
@@ -9,15 +11,16 @@ namespace Scenes.Config
     {
         public TextMeshProUGUI bgmVolumeParam;
         public TextMeshProUGUI seVolumeParam;
-        public TextMeshProUGUI back;
+        public TextMeshProUGUI backMenu;
         public Color normalOptionColor;
         public Color focusedOptionColor;
-        public AudioClip bgm;
+        public AudioClip configBGM;
         public AudioClip moveSE;
         public AudioClip selectSE;
 
-        private BGMSingleton _bgmSingleton;
-        private SESingleton _seSingleton;
+        private FadeSingleton _fade;
+        private BGMSingleton _bgm;
+        private SESingleton _se;
         private TextMeshProUGUI[] _configItems;
         private int _focusedConfigItemI;
 
@@ -25,11 +28,12 @@ namespace Scenes.Config
 
         private void Start()
         {
-            _bgmSingleton = BGMSingleton.GetInstance();
-            _bgmSingleton.PlayBGM(bgm);
-            _seSingleton = SESingleton.GetInstance();
-            _configItems = new[] { bgmVolumeParam, seVolumeParam, back };
-            _focusedConfigItemI = 0;
+            _fade = FadeSingleton.GetInstance();
+            _fade.FadeIn();
+            _bgm = BGMSingleton.GetInstance();
+            _bgm.Play(configBGM);
+            _se = SESingleton.GetInstance();
+            _configItems = new[] { bgmVolumeParam, seVolumeParam, backMenu };
             _persistentConfig = PersistentConfig.LoadPersistentConfigFromPlayerPrefs();
             UpdateConfigItems();
             UpdateBGMVolume();
@@ -97,7 +101,7 @@ namespace Scenes.Config
 
         private void FocusConfigItem(int configItemI)
         {
-            _seSingleton.PlaySE(moveSE);
+            _se.Play(moveSE);
             _focusedConfigItemI = configItemI;
             UpdateConfigItems();
         }
@@ -108,15 +112,15 @@ namespace Scenes.Config
             if (focusedConfigItem == bgmVolumeParam)
             {
                 _persistentConfig.DecreaseBGMVolume();
-                _bgmSingleton.SetBGMVolume(_persistentConfig.bgmVolume);
-                _seSingleton.PlaySE(moveSE);
+                _bgm.SetVolume(_persistentConfig.bgmVolume);
+                _se.Play(moveSE);
                 UpdateBGMVolume();
             }
             else if (focusedConfigItem == seVolumeParam)
             {
                 _persistentConfig.DecreaseSEVolume();
-                _seSingleton.SetSEVolume(_persistentConfig.seVolume);
-                _seSingleton.PlaySE(moveSE);
+                _se.SetVolume(_persistentConfig.seVolume);
+                _se.Play(moveSE);
                 UpdateSEVolume();
             }
         }
@@ -127,40 +131,41 @@ namespace Scenes.Config
             if (focusedConfigItem == bgmVolumeParam)
             {
                 _persistentConfig.IncreaseBGMVolume();
-                _bgmSingleton.SetBGMVolume(_persistentConfig.bgmVolume);
-                _seSingleton.PlaySE(moveSE);
+                _bgm.SetVolume(_persistentConfig.bgmVolume);
+                _se.Play(moveSE);
                 UpdateBGMVolume();
             }
             else if (focusedConfigItem == seVolumeParam)
             {
                 _persistentConfig.IncreaseSEVolume();
-                _seSingleton.SetSEVolume(_persistentConfig.seVolume);
-                _seSingleton.PlaySE(moveSE);
+                _se.SetVolume(_persistentConfig.seVolume);
+                _se.Play(moveSE);
                 UpdateSEVolume();
             }
         }
 
         private void SelectConfigItem()
         {
-            _seSingleton.PlaySE(selectSE);
+            _se.Play(selectSE);
             var focusedConfigItem = _configItems[_focusedConfigItemI];
-            if (focusedConfigItem == back)
+            if (focusedConfigItem == backMenu)
             {
                 PersistentConfig.SavePersistentConfigToPlayerPrefs(_persistentConfig);
-                SceneManager.LoadScene("MenuScene");
+                _fade.FadeOut();
+                StartCoroutine(SceneTransition.LoadSceneWithDelay(SceneTransition.MenuScene));
             }
         }
 
         private void FocusBackConfigItemOrSelectBackConfigItem()
         {
             var focusedConfigItem = _configItems[_focusedConfigItemI];
-            if (focusedConfigItem == back)
+            if (focusedConfigItem == backMenu)
             {
                 SelectConfigItem();
             }
             else
             {
-                FocusConfigItem(Array.IndexOf(_configItems, back));
+                FocusConfigItem(Array.IndexOf(_configItems, backMenu));
             }
         }
     }

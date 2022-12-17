@@ -1,34 +1,42 @@
 using System;
+using Scene;
+using Singleton;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Scenes.Menu
 {
     public class MenuManager : MonoBehaviour
     {
-        public TextMeshProUGUI startOption;
-        public TextMeshProUGUI resultOption;
-        public TextMeshProUGUI configOption;
-        public TextMeshProUGUI quitOption;
+        public TextMeshProUGUI startMenu;
+        public TextMeshProUGUI resultMenu;
+        public TextMeshProUGUI configMenu;
+        public TextMeshProUGUI quitMenu;
         public Color normalMenuItemColor;
         public Color focusedMenuItemColor;
-        public AudioClip bgm;
+        public AudioClip menuBGM;
         public AudioClip moveSE;
         public AudioClip selectSE;
 
-        private BGMSingleton _bgmSingleton;
-        private SESingleton _seSingleton;
+        private LastMenuSingleton _lastMenu;
+        private FadeSingleton _fade;
+        private BGMSingleton _bgm;
+        private SESingleton _se;
         private TextMeshProUGUI[] _menuItems;
         private int _focusedMenuItemI;
+        private bool _inTransition;
 
         private void Start()
         {
-            _bgmSingleton = BGMSingleton.GetInstance();
-            _bgmSingleton.PlayBGM(bgm);
-            _seSingleton = SESingleton.GetInstance();
-            _menuItems = new[] { startOption, resultOption, configOption, quitOption };
-            _focusedMenuItemI = 0;
+            _lastMenu = LastMenuSingleton.GetInstance();
+            _fade = FadeSingleton.GetInstance();
+            _fade.FadeIn();
+            _bgm = BGMSingleton.GetInstance();
+            _bgm.Play(menuBGM);
+            _se = SESingleton.GetInstance();
+            _menuItems = new[] { startMenu, resultMenu, configMenu, quitMenu };
+            _focusedMenuItemI = _lastMenu.Index;
+            _inTransition = false;
             UpdateMenuItems();
         }
 
@@ -45,6 +53,10 @@ namespace Scenes.Menu
 
         private void Update()
         {
+            if (_inTransition)
+            {
+                return;
+            }
             if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.K))
             {
                 FocusPrevMenuItem();
@@ -75,45 +87,41 @@ namespace Scenes.Menu
 
         private void FocusMenuItem(int menuItemI)
         {
-            _seSingleton.PlaySE(moveSE);
+            _se.Play(moveSE);
             _focusedMenuItemI = menuItemI;
             UpdateMenuItems();
         }
 
         private void SelectMenuItem()
         {
-            _seSingleton.PlaySE(selectSE);
+            _se.Play(selectSE);
             var focusedMenuItem = _menuItems[_focusedMenuItemI];
-            if (focusedMenuItem == configOption)
+            if (focusedMenuItem == configMenu)
             {
-                SceneManager.LoadScene("ConfigScene");
+                _inTransition = true;
+                _lastMenu.Index = _focusedMenuItemI;
+                _fade.FadeOut();
+                StartCoroutine(SceneTransition.LoadSceneWithDelay(SceneTransition.ConfigScene));
             }
-            else if (focusedMenuItem == quitOption)
+            else if (focusedMenuItem == quitMenu)
             {
-                Quit();
+                _inTransition = true;
+                _fade.FadeOut();
+                StartCoroutine(SceneTransition.QuitWithDelay());
             }
         }
 
         private void FocusQuitMenuItemOrSelectQuitMenuItem()
         {
             var focusedMenuItem = _menuItems[_focusedMenuItemI];
-            if (focusedMenuItem == quitOption)
+            if (focusedMenuItem == quitMenu)
             {
                 SelectMenuItem();
             }
             else
             {
-                FocusMenuItem(Array.IndexOf(_menuItems, quitOption));
+                FocusMenuItem(Array.IndexOf(_menuItems, quitMenu));
             }
-        }
-
-        private static void Quit()
-        {
-            #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-            #else
-            Application.Quit();
-            #endif
         }
     }
 }
