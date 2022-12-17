@@ -69,6 +69,10 @@ namespace Scenes.Menu
             {
                 SelectMenuItem();
             }
+            else if (Input.GetKeyDown(KeyCode.Backspace) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.H)))
+            {
+                FocusQuitMenuItemOrSelectQuitMenuItem();
+            }
             else if (Input.GetKeyDown(KeyCode.Escape) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.LeftBracket)))
             {
                 FocusQuitMenuItemOrSelectQuitMenuItem();
