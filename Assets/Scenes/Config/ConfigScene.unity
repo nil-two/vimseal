@@ -1587,12 +1587,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: '[Keys]
 
-    <Left>, l:      increase
+    <Left>, l:  increase
 
-    <Right>, h:     decrease
-
-    <Enter>,
-    <C-m>: select or toggle'
+    <Right>, h: decrease'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 15d7db0f3d3abae4eb20a7943f0c8ee8, type: 2}
   m_sharedMaterial: {fileID: -5245284928645384482, guid: 15d7db0f3d3abae4eb20a7943f0c8ee8, type: 2}

@@ -7,6 +7,7 @@ namespace Scene
     public static class SceneTransition
     {
         public const string MenuScene = "MenuScene";
+        public const string ResultScene = "ResultScene";
         public const string ConfigScene = "ConfigScene";
 
         private const float Delay = 0.4f;

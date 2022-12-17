@@ -21,14 +21,14 @@ namespace Scenes.Config
         private BGMSingleton _bgm;
         private SESingleton _se;
         private FadeSingleton _fade;
-        private PersistentConfig _persistentConfig;
+        private PersistentConfig _config;
         private TextMeshProUGUI[] _configItems;
         private int _focusedConfigItemI;
         private bool _inTransition;
 
         private void Start()
         {
-            _persistentConfig = PersistentConfig.LoadPersistentConfigFromPlayerPrefs();
+            _config = PersistentConfig.LoadPersistentConfigFromPlayerPrefs();
             _configItems = new[] { bgmVolumeParam, seVolumeParam, backMenu };
             _focusedConfigItemI = 0;
             UpdateConfigItems();
@@ -87,12 +87,12 @@ namespace Scenes.Config
 
         private void UpdateBGMVolume()
         {
-            bgmVolumeParam.text = $"BGM Volume: {_persistentConfig.bgmVolume,3}";
+            bgmVolumeParam.text = $"BGM Volume: {_config.bgmVolume,3}";
         }
 
         private void UpdateSEVolume()
         {
-            seVolumeParam.text = $"SE Volume:  {_persistentConfig.seVolume,3}";
+            seVolumeParam.text = $"SE Volume:  {_config.seVolume,3}";
         }
 
         private void FocusPrevConfigItem()
@@ -117,15 +117,15 @@ namespace Scenes.Config
             var focusedConfigItem = _configItems[_focusedConfigItemI];
             if (focusedConfigItem == bgmVolumeParam)
             {
-                _persistentConfig.DecreaseBGMVolume();
-                _bgm.SetVolume(_persistentConfig.bgmVolume);
+                _config.DecreaseBGMVolume();
+                _bgm.SetVolume(_config.bgmVolume);
                 _se.Play(moveSE);
                 UpdateBGMVolume();
             }
             else if (focusedConfigItem == seVolumeParam)
             {
-                _persistentConfig.DecreaseSEVolume();
-                _se.SetVolume(_persistentConfig.seVolume);
+                _config.DecreaseSEVolume();
+                _se.SetVolume(_config.seVolume);
                 _se.Play(moveSE);
                 UpdateSEVolume();
             }
@@ -136,15 +136,15 @@ namespace Scenes.Config
             var focusedConfigItem = _configItems[_focusedConfigItemI];
             if (focusedConfigItem == bgmVolumeParam)
             {
-                _persistentConfig.IncreaseBGMVolume();
-                _bgm.SetVolume(_persistentConfig.bgmVolume);
+                _config.IncreaseBGMVolume();
+                _bgm.SetVolume(_config.bgmVolume);
                 _se.Play(moveSE);
                 UpdateBGMVolume();
             }
             else if (focusedConfigItem == seVolumeParam)
             {
-                _persistentConfig.IncreaseSEVolume();
-                _se.SetVolume(_persistentConfig.seVolume);
+                _config.IncreaseSEVolume();
+                _se.SetVolume(_config.seVolume);
                 _se.Play(moveSE);
                 UpdateSEVolume();
             }
@@ -158,7 +158,7 @@ namespace Scenes.Config
             {
                 _inTransition = true;
                 _fade.FadeOut();
-                PersistentConfig.SavePersistentConfigToPlayerPrefs(_persistentConfig);
+                PersistentConfig.SavePersistentConfigToPlayerPrefs(_config);
                 StartCoroutine(SceneTransition.LoadSceneWithDelay(SceneTransition.MenuScene));
             }
         }

@@ -96,7 +96,14 @@ namespace Scenes.Menu
         {
             _se.Play(selectSE);
             var focusedMenuItem = _menuItems[_focusedMenuItemI];
-            if (focusedMenuItem == configMenu)
+            if (focusedMenuItem == resultMenu)
+            {
+                _inTransition = true;
+                _lastMenu.Index = _focusedMenuItemI;
+                _fade.FadeOut();
+                StartCoroutine(SceneTransition.LoadSceneWithDelay(SceneTransition.ResultScene));
+            }
+            else if (focusedMenuItem == configMenu)
             {
                 _inTransition = true;
                 _lastMenu.Index = _focusedMenuItemI;

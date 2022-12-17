@@ -34,13 +34,14 @@ namespace Singleton
             }
         }
 
-        public void Play(AudioClip bgmAudioClip)
+        public void Play(AudioClip bgmAudioClip, float time = 0f)
         {
             if (bgmAudioClip == _audioSource.clip)
             {
                 return;
             }
             _audioSource.clip = bgmAudioClip;
+            _audioSource.time = time;
             _audioSource.Play();
         }
 
