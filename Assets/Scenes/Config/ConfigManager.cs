@@ -18,23 +18,24 @@ namespace Scenes.Config
         public AudioClip moveSE;
         public AudioClip selectSE;
 
-        private FadeSingleton _fade;
+        private PersistentConfig _persistentConfig;
         private BGMSingleton _bgm;
         private SESingleton _se;
+        private FadeSingleton _fade;
         private TextMeshProUGUI[] _configItems;
         private int _focusedConfigItemI;
-
-        private PersistentConfig _persistentConfig;
+        private bool _inTransition;
 
         private void Start()
         {
-            _fade = FadeSingleton.GetInstance();
-            _fade.FadeIn();
+            _persistentConfig = PersistentConfig.LoadPersistentConfigFromPlayerPrefs();
+            _configItems = new[] { bgmVolumeParam, seVolumeParam, backMenu };
             _bgm = BGMSingleton.GetInstance();
             _bgm.Play(configBGM);
             _se = SESingleton.GetInstance();
-            _configItems = new[] { bgmVolumeParam, seVolumeParam, backMenu };
-            _persistentConfig = PersistentConfig.LoadPersistentConfigFromPlayerPrefs();
+            _fade = FadeSingleton.GetInstance();
+            _fade.FadeIn();
+            _inTransition = false;
             UpdateConfigItems();
             UpdateBGMVolume();
             UpdateSEVolume();
@@ -42,6 +43,10 @@ namespace Scenes.Config
 
         private void Update()
         {
+            if (_inTransition)
+            {
+                return;
+            }
             if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.K))
             {
                 FocusPrevConfigItem();
@@ -150,8 +155,9 @@ namespace Scenes.Config
             var focusedConfigItem = _configItems[_focusedConfigItemI];
             if (focusedConfigItem == backMenu)
             {
-                PersistentConfig.SavePersistentConfigToPlayerPrefs(_persistentConfig);
+                _inTransition = true;
                 _fade.FadeOut();
+                PersistentConfig.SavePersistentConfigToPlayerPrefs(_persistentConfig);
                 StartCoroutine(SceneTransition.LoadSceneWithDelay(SceneTransition.MenuScene));
             }
         }

@@ -19,9 +19,9 @@ namespace Scenes.Menu
         public AudioClip selectSE;
 
         private LastMenuSingleton _lastMenu;
-        private FadeSingleton _fade;
         private BGMSingleton _bgm;
         private SESingleton _se;
+        private FadeSingleton _fade;
         private TextMeshProUGUI[] _menuItems;
         private int _focusedMenuItemI;
         private bool _inTransition;
@@ -29,13 +29,13 @@ namespace Scenes.Menu
         private void Start()
         {
             _lastMenu = LastMenuSingleton.GetInstance();
-            _fade = FadeSingleton.GetInstance();
-            _fade.FadeIn();
+            _menuItems = new[] { startMenu, resultMenu, configMenu, quitMenu };
+            _focusedMenuItemI = _lastMenu.Index;
             _bgm = BGMSingleton.GetInstance();
             _bgm.Play(menuBGM);
             _se = SESingleton.GetInstance();
-            _menuItems = new[] { startMenu, resultMenu, configMenu, quitMenu };
-            _focusedMenuItemI = _lastMenu.Index;
+            _fade = FadeSingleton.GetInstance();
+            _fade.FadeIn();
             _inTransition = false;
             UpdateMenuItems();
         }
