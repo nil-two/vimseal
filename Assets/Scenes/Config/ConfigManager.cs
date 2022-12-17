@@ -18,10 +18,10 @@ namespace Scenes.Config
         public AudioClip moveSE;
         public AudioClip selectSE;
 
-        private PersistentConfig _persistentConfig;
         private BGMSingleton _bgm;
         private SESingleton _se;
         private FadeSingleton _fade;
+        private PersistentConfig _persistentConfig;
         private TextMeshProUGUI[] _configItems;
         private int _focusedConfigItemI;
         private bool _inTransition;
@@ -30,15 +30,16 @@ namespace Scenes.Config
         {
             _persistentConfig = PersistentConfig.LoadPersistentConfigFromPlayerPrefs();
             _configItems = new[] { bgmVolumeParam, seVolumeParam, backMenu };
+            _focusedConfigItemI = 0;
+            UpdateConfigItems();
+            UpdateBGMVolume();
+            UpdateSEVolume();
             _bgm = BGMSingleton.GetInstance();
             _bgm.Play(configBGM);
             _se = SESingleton.GetInstance();
             _fade = FadeSingleton.GetInstance();
             _fade.FadeIn();
             _inTransition = false;
-            UpdateConfigItems();
-            UpdateBGMVolume();
-            UpdateSEVolume();
         }
 
         private void Update()
