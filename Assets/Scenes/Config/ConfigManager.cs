@@ -58,11 +58,11 @@ namespace Scenes.Config
             {
                 IncreaseConfigItem();
             }
-            else if (Input.GetKeyDown(KeyCode.Return) || (Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.M)))
+            else if (Input.GetKeyDown(KeyCode.Return) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.M)))
             {
                 SelectConfigItem();
             }
-            else if (Input.GetKeyDown(KeyCode.Escape) || (Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.LeftBracket)))
+            else if (Input.GetKeyDown(KeyCode.Escape) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.LeftBracket)))
             {
                 FocusBackConfigItemOrSelectBackConfigItem();
             }
