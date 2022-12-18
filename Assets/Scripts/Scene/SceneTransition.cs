@@ -10,7 +10,7 @@ namespace Scene
         public const string ResultScene = "ResultScene";
         public const string ConfigScene = "ConfigScene";
 
-        private const float Delay = 0.4f;
+        private const float Delay = 0.45f;
 
         public static IEnumerator LoadSceneWithDelay(string sceneName)
         {
