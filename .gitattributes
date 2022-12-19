@@ -1,0 +1,10 @@
+Assets/Fonts/*.asset filter=lfs diff=lfs merge=lfs -text
+Works/configBg.clip filter=lfs diff=lfs merge=lfs -text
+Works/gameBg.clip filter=lfs diff=lfs merge=lfs -text
+Works/menuBg.clip filter=lfs diff=lfs merge=lfs -text
+Works/resultBg.clip filter=lfs diff=lfs merge=lfs -text
+Works/vimsealLogo.clip filter=lfs diff=lfs merge=lfs -text
+Assets/Fonts/SourceCodePro-Regular[[:space:]]SDF.asset filter=lfs diff=lfs merge=lfs -text
+Assets/Fonts/SourceHanCodeJP-Regular[[:space:]]SDF.asset filter=lfs diff=lfs merge=lfs -text
+Assets/Fonts/SourceHanCodeJP-Regular.otf filter=lfs diff=lfs merge=lfs -text
+Assets/Fonts/SourceCodePro-Regular.otf filter=lfs diff=lfs merge=lfs -text
