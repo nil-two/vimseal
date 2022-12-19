@@ -8,8 +8,7 @@ namespace Persistent
     {
         private static readonly string PersistentArchiveKey = "archive";
 
-        public bool firstCoursePassed;
-        public bool secondCoursePassed;
+        public bool basicCoursePassed;
 
         private static PersistentArchive BuildDefaultPersistentArchive()
         {
@@ -34,17 +33,10 @@ namespace Persistent
             PlayerPrefs.SetString(PersistentArchiveKey, JsonUtility.ToJson(persistentArchive));
         }
 
-        public static void RecordFirstCoursePassed()
+        public static void RecordBasicCoursePassed()
         {
             var a = LoadPersistentArchiveFromPlayerPrefs();
-            a.firstCoursePassed = true;
-            SavePersistentArchiveToPlayerPrefs(a);
-        }
-
-        public static void RecordSecondCoursePassed()
-        {
-            var a = LoadPersistentArchiveFromPlayerPrefs();
-            a.secondCoursePassed = true;
+            a.basicCoursePassed = true;
             SavePersistentArchiveToPlayerPrefs(a);
         }
     }

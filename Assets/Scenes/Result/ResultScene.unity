@@ -288,6 +288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   archiveContent: {fileID: 1549840323}
+  archiveRecordedColor: {r: 1, g: 0.57988256, b: 0, a: 1}
   resultBGM: {fileID: 8300000, guid: 8f7c19e4c86315e4d81f1d0d9b46aeb4, type: 3}
   selectSE: {fileID: 8300000, guid: 68eed4ad52d408c4e895ad97727ee417, type: 3}
 --- !u!4 &324343631
@@ -402,7 +403,7 @@ GameObject:
   - component: {fileID: 443156689}
   - component: {fileID: 443156692}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: MainCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1068,12 +1069,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '[ ] 1st course
-
-    [ ] 2nd course'
+  m_text: "[ ] \u57FA\u672C\u64CD\u4F5C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 15d7db0f3d3abae4eb20a7943f0c8ee8, type: 2}
-  m_sharedMaterial: {fileID: -5245284928645384482, guid: 15d7db0f3d3abae4eb20a7943f0c8ee8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f46c5a860da49f547a67f303cbb718fa, type: 2}
+  m_sharedMaterial: {fileID: 6827662405153222866, guid: f46c5a860da49f547a67f303cbb718fa, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

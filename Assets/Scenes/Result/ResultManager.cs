@@ -9,6 +9,7 @@ namespace Scenes.Result
     public class ResultManager : MonoBehaviour
     {
         public TextMeshProUGUI archiveContent;
+        public Color archiveRecordedColor;
         public AudioClip resultBGM;
         public AudioClip selectSE;
 
@@ -60,12 +61,14 @@ namespace Scenes.Result
 
         private void UpdateArchiveText()
         {
-            const string passedMark = "*";
-            const string unPassedMark = " ";
-            archiveContent.text = string.Join("\n",
-                $"[{(_archive.firstCoursePassed ? passedMark : unPassedMark)}] 1st course",
-                $"[{(_archive.secondCoursePassed ? passedMark : unPassedMark)}] 2nd course",
-                "");
+            if (_archive.basicCoursePassed)
+            {
+                archiveContent.text = $"<color=#{ColorUtility.ToHtmlStringRGB(archiveRecordedColor)}>[*] 基本操作</color>";
+            }
+            else
+            {
+                archiveContent.text = "[ ] 基本操作";
+            }
         }
     }
 }
