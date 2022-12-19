@@ -28,7 +28,6 @@ https://unityroom.com/games/vimseal
 | \<Enter\> or \<C-m\> | 次へ           |
 
 ## 素材
-----
 
 ### BGM
 
